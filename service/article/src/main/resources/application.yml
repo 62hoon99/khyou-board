@@ -1,0 +1,16 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: khyou-board-article-service
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3308/article
+    username: root
+    password: dbrlgns123@
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
