@@ -1,13 +1,16 @@
 package khyou.board.article.api;
 
+import khyou.board.article.entity.Article;
 import khyou.board.article.service.response.ArticlePageResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public class ArticleApiTest {
@@ -29,6 +32,22 @@ public class ArticleApiTest {
         ArticlePageResponse articlePageResponse = readAllArticles(1L, 50000L, 30L);
         //then
         System.out.println(articlePageResponse.getArticles().size());
+    }
+
+    @Test
+    void readAllArticlesInfiniteScroll() {
+        //when
+        List<ArticleResponse> articleResponses = readAllArticlesInfiniteScroll(1L, 21747167383452060L, 30L);
+        //then
+        System.out.println(articleResponses.size());
+    }
+
+    List<ArticleResponse> readAllArticlesInfiniteScroll(Long boardId, Long lastArticleId, Long limit) {
+        return restClient.get()
+                .uri("/v1/articles/infinite-scroll?boardId={boardId}&lastArticleId={lastArticleId}&limit={limit}",
+                        Map.of("boardId", boardId, "lastArticleId", lastArticleId, "limit", limit))
+                .retrieve()
+                .body(ParameterizedTypeReference.forType(ArticleResponse.class));
     }
 
     ArticlePageResponse readAllArticles(Long boardId, Long page, Long pageSize) {

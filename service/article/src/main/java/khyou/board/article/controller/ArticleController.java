@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class ArticleController {
@@ -20,10 +22,17 @@ public class ArticleController {
     }
 
     @GetMapping("/v1/articles")
-    public ArticlePageResponse readAll(@Param("boardId") Long boardId,
-                                       @Param("page") Long page,
-                                       @Param("pageSize") Long pageSize) {
+    public ArticlePageResponse readAll(@RequestParam("boardId") Long boardId,
+                                       @RequestParam("page") Long page,
+                                       @RequestParam("pageSize") Long pageSize) {
         return articleService.readAll(boardId, page, pageSize);
+    }
+
+    @GetMapping("/v1/articles/infinite-scroll")
+    public List<ArticleResponse> readAllInfiniteScroll(@RequestParam("boardId") Long boardId,
+                                                       @RequestParam("limit") Long limit,
+                                                       @RequestParam(value = "lastArticleId", required = false) Long lastArticleId) {
+        return articleService.readAllInfiniteScroll(boardId, limit, lastArticleId);
     }
 
     @PostMapping("/v1/articles")
