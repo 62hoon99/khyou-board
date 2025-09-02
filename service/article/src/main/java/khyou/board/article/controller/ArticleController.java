@@ -6,7 +6,6 @@ import khyou.board.article.service.request.ArticleUpdateRequest;
 import khyou.board.article.service.response.ArticlePageResponse;
 import khyou.board.article.service.response.ArticleResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,4 +49,8 @@ public class ArticleController {
         articleService.delete(articleId);
     }
 
+    @GetMapping("/v1/articles/boards/{boardId}/count")
+    public Long count(@PathVariable Long boardId) {
+        return articleService.count(boardId);
+    }
 }
