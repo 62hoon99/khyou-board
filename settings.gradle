@@ -1,6 +1,8 @@
 rootProject.name = 'khyou-board'
 
 include 'common'
+include 'common:data-serializer'
+include 'common:event'
 include 'service'
 include 'service:article'
 include 'service:comment'
